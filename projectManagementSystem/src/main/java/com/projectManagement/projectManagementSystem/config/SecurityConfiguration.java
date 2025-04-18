@@ -49,6 +49,7 @@ public class SecurityConfiguration  {
                         "http://localhost:5173",
                         "http://localhost:4200"
                 ));
+//                Like POST,GET,DELETE,PUT
                 cfg.setAllowedMethods(Collections.singletonList("*"));
                 cfg.setAllowCredentials(true);
                 cfg.setAllowedHeaders(Collections.singletonList("*"));

@@ -35,6 +35,4 @@ public class JwtProvider {
         return String.valueOf(claims.get("email"));
     }
 
-
-
 }
