@@ -8,10 +8,10 @@ import { ScrollArea } from '@radix-ui/react-scroll-area'
 import React, { useState } from 'react'
 import ProjectCard from '../Project/ProjectCard'
 
-const tags = [
+export const tags = [
   "all","react","next js","spring boot","mysql","mongo db","angular","python","flask","django"
 ]
-
+ 
 function ProjectList() {
 
   const [keyword,setKeyword] = useState("")
@@ -79,6 +79,7 @@ function ProjectList() {
             </CardContent>
           </Card>
         </section>
+
         <section className='projectListSection w-full lg:w-[48rem]'>
           <div className="flex gap-2 items-center pb-5 justify-between">
             <div className='relative w-full p-0'>
@@ -89,11 +90,12 @@ function ProjectList() {
           </div>
           <div className='space-y-5 min-h-[74vh]'>
             {
-              keyword?[1,1,1].map((item,index)=><ProjectCard key={index}/>):
+              keyword.length?[1,1,1].map((item,index)=><ProjectCard key={index}/>):
               [1,1,1,4,4,3].map((item,index)=><ProjectCard key={index}/>)
             }
           </div>
         </section>
+
       </div>
     </div>
   )

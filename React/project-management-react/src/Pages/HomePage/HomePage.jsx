@@ -7,6 +7,6 @@ function HomePage() {
       <ProjectList/>
     </div>
   )
-}
+} 
 
 export default HomePage

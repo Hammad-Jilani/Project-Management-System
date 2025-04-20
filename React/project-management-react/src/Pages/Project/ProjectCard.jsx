@@ -5,7 +5,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { DotFilledIcon, DotsVerticalIcon } from '@radix-ui/react-icons'
 import React from 'react'
 
-function ProjectCard() {
+function ProjectCard() {  
   return (
     <Card className="p-5 w-full lg:max-w-3xl">
       <div className='space-y-5'>

@@ -5,7 +5,7 @@ import CreateForm from '../Project/CreateForm'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger,DropdownMenuItem } from '@/components/ui/dropdown-menu'
 import { PersonIcon } from '@radix-ui/react-icons'
 
-function Navbar() {
+function Navbar() { 
   return (
     <div className='border-b py-4 px-5 flex items-center justify-between'>
       <div className='flex items-center gap-3'>

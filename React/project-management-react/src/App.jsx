@@ -5,6 +5,7 @@ import './App.css'
 import { Button } from './components/ui/button'
 import HomePage from './Pages/HomePage/HomePage'
 import Navbar from './Pages/Navbar/Navbar'
+import { Route, Routes } from 'react-router-dom'
 // import { Home } from 'lucide-react'
 
 function App() {
@@ -13,7 +14,9 @@ function App() {
   return (
     <>
       <Navbar/>
-      <HomePage/>
+      <Routes>
+        <Route path='/' element={<HomePage/>}></Route>
+      </Routes>
     </>
   )
 }
