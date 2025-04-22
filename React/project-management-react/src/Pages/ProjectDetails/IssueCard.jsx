@@ -5,12 +5,13 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem,DropdownMenuTrigger
 import { DotsVerticalIcon, PersonIcon } from '@radix-ui/react-icons'
 import React from 'react'
 import UserList from './UserList'
+import { Link } from 'react-router-dom'
 
 function IssueCard() {
   return (
     <Card className="rounded-md py-1 pb-2">
       <CardHeader className="flex justify-between items-center">
-        <CardTitle>Create Navbar</CardTitle>
+        <CardTitle><Link to={"/project/2/issue/2"}>Create Navbar</Link></CardTitle>
         <div>
         <DropdownMenu>
           <DropdownMenuTrigger>

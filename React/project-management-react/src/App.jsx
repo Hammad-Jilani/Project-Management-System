@@ -7,6 +7,7 @@ import HomePage from './Pages/HomePage/HomePage'
 import Navbar from './Pages/Navbar/Navbar'
 import { Route, Routes } from 'react-router-dom'
 import ProjectDetails from './Pages/ProjectDetails/ProjectDetails'
+import IssueDetails from './Pages/IssueDetails/IssueDetails'
 // import { Home } from 'lucide-react'
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
       <Routes>
         <Route path='/' element={<HomePage/>}></Route>
         <Route path='/project/:id' element={<ProjectDetails/>}></Route>
+        <Route path='/project/:projectId/issue/:issueId' element={<IssueDetails/>}></Route>
       </Routes>
     </>
   )
