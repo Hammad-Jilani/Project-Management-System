@@ -8,6 +8,7 @@ import Navbar from './Pages/Navbar/Navbar'
 import { Route, Routes } from 'react-router-dom'
 import ProjectDetails from './Pages/ProjectDetails/ProjectDetails'
 import IssueDetails from './Pages/IssueDetails/IssueDetails'
+import Auth from './Pages/Auth/Auth'
 // import { Home } from 'lucide-react'
 
 function App() {
@@ -15,13 +16,19 @@ function App() {
 
   return (
     <>
-      <Navbar/>
-      <Routes>
-        <Route path='/' element={<HomePage/>}></Route>
-        <Route path='/project/:id' element={<ProjectDetails/>}></Route>
-        <Route path='/project/:projectId/issue/:issueId' element={<IssueDetails/>}></Route>
-      </Routes>
+      {
+        false? <div>
+                <Navbar/>
+                <Routes>
+                  <Route path='/' element={<HomePage/>}></Route>
+                  <Route path='/project/:id' element={<ProjectDetails/>}></Route>
+                  <Route path='/project/:projectId/issue/:issueId' element={<IssueDetails/>}></Route>
+                </Routes>
+              </div>:<Auth/>
+      }
     </>
+    
+    
   )
 }
 

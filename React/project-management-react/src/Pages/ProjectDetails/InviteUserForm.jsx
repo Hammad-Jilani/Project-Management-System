@@ -18,7 +18,7 @@ function InviteUserForm() {
   
   return (
     <Form {...form}>
-      <form onClick={form.handleSubmit(onSubmit)}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
 
         <FormField control={form.control} name="email"
           render={({field})=>
