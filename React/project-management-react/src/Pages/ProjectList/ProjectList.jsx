@@ -7,22 +7,48 @@ import { MagnifyingGlassIcon, MixerHorizontalIcon } from '@radix-ui/react-icons'
 import { ScrollArea } from '@radix-ui/react-scroll-area'
 import React, { useState } from 'react'
 import ProjectCard from '../Project/ProjectCard'
+import { useDispatch, useSelector } from 'react-redux'
+import { store } from '@/Redux/Store'
+import { fetchProjects, searchProjects } from '@/Redux/Project/Action'
 
 export const tags = [
   "all","react","next js","spring boot","mysql","mongo db","angular","python","flask","django"
 ]
  
 function ProjectList() {
-
+  const {project} = useSelector(store=>store)
   const [keyword,setKeyword] = useState("")
+  const dispatch = useDispatch()
 
-  function handleFilterChange(section,value){
-    console.log("value",value,section);
+  function handleFilterCategory(value){
+  
+    if(value=='all'){
+      dispatch(fetchProjects({}))
+    }
+    dispatch(fetchProjects({category:value}))
+    // console.log("value",value);
+  }
+
+
+  function handleFilterTag(value){
+    if(value=='all'){
+      dispatch(fetchProjects({}))
+    }
+    else
+    dispatch(fetchProjects({tag:value}))
+    // console.log("value",value);
   }
 
   function handleSearchChange(e){
     setKeyword(e.target.value)
+    dispatch(searchProjects(e.target.value))
   }
+
+  // useEffect(()=>{
+  //     dispatch(fetchProjects({}))
+  //   },[])
+    console.log('project store',project);
+
   return (
     <div>
       <div className='relative px-5 lg:px-0 lg:flex gap-5 justify-center py-5'>
@@ -40,7 +66,7 @@ function ProjectList() {
                   <h1 className='pb-3 text-gray-400 border-b'>Category</h1>
  
                   <div className='pt-5'>
-                    <RadioGroup className="xl:space-y-3 xl:pt-3" defaultValue="all" onValueChange ={(value)=>handleFilterChange("category",value)}>
+                    <RadioGroup className="xl:space-y-3 xl:pt-3" defaultValue="all" onValueChange ={(value)=>handleFilterCategory(value)}>
                       <div className='flex items-center gap-2'>
                         <RadioGroupItem value="all" id="r1"/>
                         <Label htmlFor="r1">all</Label>
@@ -65,7 +91,7 @@ function ProjectList() {
                   <h1 className='pb-3 text-gray-400 border-b'>Tag</h1>
 
                   <div className='pt-5'>
-                    <RadioGroup className="xl:space-y-3 xl:pt-3" defaultValue="all" onValueChange ={(value)=>handleFilterChange("tag",value)}>
+                    <RadioGroup className="xl:space-y-3 xl:pt-3" defaultValue="all" onValueChange ={(value)=>handleFilterTag(value)}>
                       {tags.map((item)=>
                         <div key={item} className='flex items-center gap-2'>
                           <RadioGroupItem value={item} id={`r1-${item}`}/>
@@ -90,8 +116,8 @@ function ProjectList() {
           </div>
           <div className='space-y-5 min-h-[74vh]'>
             {
-              keyword.length?[1,1,1].map((item,index)=><ProjectCard key={index}/>):
-              [1,1,1,4,4,3].map((item,index)=><ProjectCard key={index}/>)
+              keyword ?project.searchProjects?.map((item,index)=><ProjectCard item={item} key={item.id*index}/>):
+              project.projects.map((item,index)=><ProjectCard key={item.id} item={item}/>)
             }
           </div>
         </section>

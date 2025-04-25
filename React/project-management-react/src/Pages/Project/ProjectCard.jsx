@@ -2,23 +2,30 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
+import { deleteProject, fetchProjectById } from '@/Redux/Project/Action'
 import { DotFilledIcon, DotsVerticalIcon } from '@radix-ui/react-icons'
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-function ProjectCard() {  
+function ProjectCard({item}) {  
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  function handleDelete(){
+    dispatch(deleteProject({projectId:item.id}))
+  }
+  
   return (
     <Card className="p-5 w-full lg:max-w-3xl">
       <div className='space-y-5'>
         <div className='space-y-2'>
           <div className='flex justify-between'>
             <div className='flex items-center gap-5'>
-              <h1 onClick={()=>navigate("/project/3")} className='cursor-pointer font-bold text-lg'>
-                Create Ecommerce Project
+              <h1 onClick={()=>navigate("/project/"+item.id)} className='cursor-pointer font-bold text-lg'>
+                {item.name}
               </h1>
               <DotFilledIcon></DotFilledIcon>
-              <p className='text-sm text-gray-400'>Full Stack</p>
+              <p className='text-sm text-gray-400'>{item.category}</p>
               <div>
                 <DropdownMenu>
                   <DropdownMenuTrigger>
@@ -28,7 +35,7 @@ function ProjectCard() {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
                     <DropdownMenuItem>Update</DropdownMenuItem>
-                    <DropdownMenuItem>Delete</DropdownMenuItem>
+                    <DropdownMenuItem onClick={handleDelete}>Delete</DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
@@ -37,14 +44,14 @@ function ProjectCard() {
           </div>
              
           <p className='text-gray-500 text-sm'>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Provident ipsa minima suscipit ea magni, autem quasi debitis adipisci quae rerum voluptas porro repudiandae doloremque. Nihil sed sunt officia numquam voluptates.
+            {item.description}
           </p>
 
 
         </div>
         <div className='flex flex-wrap gap-2 items-center'>
           {
-            [1,1,1,1].map((item,index)=><Badge variant={"secondary"} key={index}>Frontend</Badge>)
+            item.tag.map((tag,index)=><Badge variant={"secondary"} key={index}>{tag}</Badge>)
           }
         </div>
       </div>

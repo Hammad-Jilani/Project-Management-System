@@ -5,36 +5,47 @@ import { Dialog, DialogClose, DialogHeader,DialogContent } from '@/components/ui
 import {  DialogTrigger } from '@radix-ui/react-dialog'
 import { PlusIcon } from '@radix-ui/react-icons'
 import { ScrollArea } from '@radix-ui/react-scroll-area'
-import React from 'react'
+import React, { useEffect } from 'react'
 import InviteUserForm from './InviteUserForm'
 import IssueList from './IssueList'
 import ChatBox from './ChatBox'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchProjectById } from '@/Redux/Project/Action'
+import { useParams } from 'react-router-dom'
+import { store } from '@/Redux/Store'
 
 function ProjectDetails() {
+  const dispatch = useDispatch()
+  const {project} = useSelector(store=>store)
+  const {id} = useParams()
   function handleProjectInvitation(){
 
   }
+  useEffect(()=>{
+    dispatch(fetchProjectById(id))
+  },[id])
+
   return (
     <div className='mt-5 lg:px-10'>
       <div className='lg:flex gap-5 justify-between pb-4'>
         <ScrollArea className='h-screen lg:w-[69%] pr-2'>
           <div className='text-gray-400 pb-10 w-full'>
-            <h1 className='text-lg font-semibold pb-5'>Create Ecommerce website using react</h1>
+            <h1 className='text-lg font-semibold pb-5'>{project.projectDetails?.name}</h1>
             <div className='space-y-5 pb-10 text-sm'>
               <p className='w-full md:max-w-lg lg:max-w-xl '>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil ut, mollitia quasi voluptate tenetur dicta vitae alias odit quod harum dolorem aspernatur voluptatum nostrum est nemo excepturi temporibus consequuntur provident.
+              Description : {project.projectDetails?.description}
               </p>
               <div className='flex '>
                 <p className='w-36'>Project Lead : </p>
-                <p>Hammad</p>
+                <p> {project.projectDetails?.owner.fullName}</p>
               </div>
 
               <div className='flex'>
                 <p className='w-36'>Members :</p>
                 <div className='flex items-center gap-2'>
                   {
-                    [1,1,1,1,1].map((items)=><Avatar>
-                      <AvatarFallback>H</AvatarFallback>
+                    project.projectDetails?.team.map((items)=><Avatar>
+                      <AvatarFallback>{items.fullName[0]}</AvatarFallback>
                     </Avatar>)
                   }
 
@@ -59,12 +70,12 @@ function ProjectDetails() {
 
               <div className='flex'>
                 <p className='w-36'>Category : </p>
-                <p>Full Stack</p>
+                <p> {project.projectDetails?.category}</p>
               </div>
 
               <div className='flex'>
                 <p className='w-36'>Project Lead : </p>
-                <Badge variant={"ghost"}>Hammad</Badge>
+                <Badge variant={"ghost"}> {project.projectDetails?.owner.fullName}</Badge>
               </div>
 
             </div>

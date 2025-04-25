@@ -7,8 +7,11 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import { tags } from '../ProjectList/ProjectList';
 import { Cross1Icon } from '@radix-ui/react-icons';
+import { useDispatch } from 'react-redux';
+import { createProjects } from '@/Redux/Project/Action';
 
 function CreateForm() {
+  const dispatch = useDispatch()
   const form = useForm(
     // resolver:
     { 
@@ -16,16 +19,17 @@ function CreateForm() {
         name:"",
         description:"",
         category:"",
-        tags:["javascript","react"]
+        tag:["javascript","react"]
       }
     },
   )
   function handleTagsChange(newValue){
-    const currentTags= form.getValues("tags")
+    const currentTags= form.getValues("tag")
     const updatetags = currentTags.includes(newValue) ? currentTags.filter(tag=>tag!=newValue):[...currentTags,newValue]
-    form.setValue("tags",updatetags)
+    form.setValue("tag",updatetags)
   }
   function onSubmit(data){
+    dispatch(createProjects(data))
     console.log("create project data",data);
   }
   return (
@@ -77,7 +81,7 @@ function CreateForm() {
 
           </FormField>
 
-          <FormField control={form.control} name="tags" render={({field})=>
+          <FormField control={form.control} name="tag" render={({field})=>
             <FormItem>
               <FormControl>
                 <Select
@@ -109,11 +113,11 @@ function CreateForm() {
             </FormItem>}>
             
           </FormField>
-
+          <DialogClose>
+            {false?<div className='mt-3 text-center w-full'><p>You Can Create Only 3 Projects</p></div>:<Button type="submit" className="w-full mt-3">Create Project</Button>}
+          </DialogClose>
         </form>
-        <DialogClose>
-          {false?<div className='mt-3 text-center w-full'><p>You Can Create Only 3 Projects</p></div>:<Button type="submit" className="w-full mt-3">Create Project</Button>}
-        </DialogClose>
+        
       </Form>
     </div>
   )

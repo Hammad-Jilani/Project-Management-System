@@ -85,7 +85,7 @@ public class AuthController {
         AuthResponse res = new AuthResponse();
         res.setMessage("Sign in success");
         res.setJwt(jwt);
-        return new ResponseEntity<>(res,HttpStatus.FOUND);
+        return new ResponseEntity<>(res,HttpStatus.OK);
     }
 
     private Authentication authenticate(String username, String password) {

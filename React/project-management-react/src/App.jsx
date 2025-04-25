@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -9,15 +9,25 @@ import { Route, Routes } from 'react-router-dom'
 import ProjectDetails from './Pages/ProjectDetails/ProjectDetails'
 import IssueDetails from './Pages/IssueDetails/IssueDetails'
 import Auth from './Pages/Auth/Auth'
+import { useDispatch, useSelector } from 'react-redux'
+import { getUser } from './Redux/Auth/Action'
+import { fetchProjects } from './Redux/Project/Action'
 // import { Home } from 'lucide-react'
 
 function App() {
   const [count, setCount] = useState(0)
-
+  const dispatch = useDispatch()
+  const {auth} = useSelector(store=>store)
+  useEffect(()=>{
+    dispatch(getUser())
+    dispatch(fetchProjects({}))
+  },[auth.jwt])
+  console.log('App.jsx auth',auth);
+  
   return (
     <>
       {
-        false? <div>
+        auth.user ? <div>
                 <Navbar/>
                 <Routes>
                   <Route path='/' element={<HomePage/>}></Route>
