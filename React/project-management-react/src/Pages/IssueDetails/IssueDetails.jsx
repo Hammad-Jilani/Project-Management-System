@@ -9,12 +9,13 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchIssuesById, updateIssueStatus } from '@/Redux/Issue/Action'
+import { fetchComments } from '@/Redux/Comment/Action'
 
 
 function IssueDetails() {
   const {projectId,issueId} = useParams()
   const dispatch = useDispatch()
-  const {issue} = useSelector(store=>store)
+  const {issue,comment} = useSelector(store=>store)
 
   function handleUpdateIssueStatus(status){
     dispatch(updateIssueStatus({id:issueId,status}))
@@ -23,6 +24,7 @@ function IssueDetails() {
   }
   useEffect(()=>{
     dispatch(fetchIssuesById(issueId))
+    dispatch(fetchComments(issueId))
   },[issueId])
   return (
     <div className='px-20 py-8 text-gray-400'>
@@ -55,7 +57,7 @@ function IssueDetails() {
                   <CreateCommentForm issueId={issueId}></CreateCommentForm>
                   <div className='mt-8 space-y-6'>
                     {
-                      [1,1,1].map((item)=><CommentCard key={item}></CommentCard>)
+                      comment.comments.map((item)=><CommentCard item={item} key={item}></CommentCard>)
                     }
                   </div>
                 </TabsContent>
