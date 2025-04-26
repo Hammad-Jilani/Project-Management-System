@@ -22,7 +22,7 @@ const issueReducer = (state = initalState, action) => {
       return {
         ...state,
         loading: false,
-        issue: action.issue
+        issue: action.issues
       }
     case FETCH_ISSUES_BY_ID_SUCCESS:
     case UPDATE_ISSUE_STATUS_SUCCESS:

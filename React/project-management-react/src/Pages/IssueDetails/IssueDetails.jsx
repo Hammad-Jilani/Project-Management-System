@@ -1,29 +1,38 @@
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Tabs, TabsContent, TabsList,TabsTrigger } from '@/components/ui/tabs'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import CreateCommentForm from './CreateCommentForm'
 import CommentCard from './CommentCard'
 import { SelectItem,Select, SelectTrigger, SelectValue ,SelectContent} from '@/components/ui/select'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchIssuesById, updateIssueStatus } from '@/Redux/Issue/Action'
 
 
 function IssueDetails() {
   const {projectId,issueId} = useParams()
+  const dispatch = useDispatch()
+  const {issue} = useSelector(store=>store)
+
   function handleUpdateIssueStatus(status){
+    dispatch(updateIssueStatus({id:issueId,status}))
     console.log(status);
     
   }
+  useEffect(()=>{
+    dispatch(fetchIssuesById(issueId))
+  },[issueId])
   return (
     <div className='px-20 py-8 text-gray-400'>
       <div className='flex justify-between border p-10 rounded-lg'>
         <ScrollArea className="h-[80vh] w-[60%]">
           <div>
-            <h1 className='text-lg font-semibold text-gray-400'>Create Navbar</h1>
+            <h1 className='text-lg font-semibold text-gray-400'>{issue.issueDetails?.title}</h1>
             <div className='py-5'>
-              <h2 className='font-semibold text-gray-400'>Description</h2>
-              <p className='text-gray-400 text-sm mt-3'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste itaque qui corrupti, veritatis optio cum beatae ex minus culpa ipsa nulla, modi laboriosam. Repellendus maiores quod dolorum obcaecati voluptate magni?</p>
+              <h2 className='font-semibold text-gray-400'>Description :</h2>
+              <p className='text-gray-400 text-sm mt-3'>{issue.issueDetails?.description}</p>
             </div>
             <div className='mt-5'>
               <h1 className='pb-3'>Activity</h1>
@@ -74,13 +83,16 @@ function IssueDetails() {
             <div className='p-5'>
               <div className='space-y-7'>
                 <div className='flex gap-10 items-center'>
-                  <p className='w-[7rem]'>Assignee</p>       
-                  <div className='flex items-center gap-3'>
+                  <p className='w-[7rem]'>Assignee</p>
+                  {
+                    issue.issueDetails?.assignee?.fullName ? <div className='flex items-center gap-3'>
                     <Avatar className='h-8 w-8 text-xs'>
-                      <AvatarFallback>Z</AvatarFallback>
+                      <AvatarFallback>{issue.issueDetails?.assignee?.fullName[0]}</AvatarFallback>
                     </Avatar>
-                    <p>Code With Zosh</p>
-                  </div>           
+                    <p>{issue.issueDetails?.assignee?.fullName}</p>
+                  </div>    : <p>Unassigned</p>
+                  }      
+                         
                 </div>
               </div>
             </div>
@@ -94,7 +106,7 @@ function IssueDetails() {
 
                 <div className='flex gap-10 items-center'>
                   <p className='w-[7rem]'>Status</p>       
-                  <Badge variant="ghost">In Progress</Badge>         
+                  <Badge variant="ghost">{issue.issueDetails?.status}</Badge>         
                 </div>
 
                 <div className='flex gap-10 items-center'>

@@ -1,5 +1,5 @@
 import api from "@/config/api";
-import { ASSIGNED_ISSUE_TO_USER_FAILURE, ASSIGNED_ISSUE_TO_USER_REQUEST, ASSIGNED_ISSUE_TO_USER_SUCCESS, FETCH_ISSUES_BY_ID_FAILURE, FETCH_ISSUES_BY_ID_REQUEST, FETCH_ISSUES_BY_ID_SUCCESS, FETCH_ISSUES_FAILURE, FETCH_ISSUES_REQUEST, FETCH_ISSUES_SUCCESS, UPDATE_ISSUE_STATUS_FAILURE, UPDATE_ISSUE_STATUS_REQUEST, UPDATE_ISSUE_STATUS_SUCCESS } from "./ActionTypes"
+import { ASSIGNED_ISSUE_TO_USER_FAILURE, ASSIGNED_ISSUE_TO_USER_REQUEST, ASSIGNED_ISSUE_TO_USER_SUCCESS, CREATE_ISSUE_FAILURE, CREATE_ISSUE_REQUEST, CREATE_ISSUE_SUCCESS, DELETE_ISSUE_FAILURE, DELETE_ISSUE_REQUEST, DELETE_ISSUE_SUCCESS, FETCH_ISSUES_BY_ID_FAILURE, FETCH_ISSUES_BY_ID_REQUEST, FETCH_ISSUES_BY_ID_SUCCESS, FETCH_ISSUES_FAILURE, FETCH_ISSUES_REQUEST, FETCH_ISSUES_SUCCESS, UPDATE_ISSUE_STATUS_FAILURE, UPDATE_ISSUE_STATUS_REQUEST, UPDATE_ISSUE_STATUS_SUCCESS } from "./ActionTypes"
 
 export function fetchIssues(id) {
   return async function (dispatch) {
@@ -40,11 +40,39 @@ export function updateIssueStatus({ id, status }) {
   }
 }
 
+export function deleteIssue(id) {
+  return async function (dispatch) {
+    dispatch({ type: DELETE_ISSUE_REQUEST })
+    try {
+      await api.delete(`/api/issues/${id}`)
+      console.log('delete issue with id ', id);
+
+      dispatch({ type: DELETE_ISSUE_SUCCESS, issueId: id })
+    } catch (error) {
+      dispatch({ type: DELETE_ISSUE_FAILURE, error: error.message })
+    }
+  }
+}
+
+export function createIssue(issue) {
+  return async function (dispatch) {
+    dispatch({ type: CREATE_ISSUE_REQUEST })
+    try {
+      const { data } = await api.post(`/api/issues`, issue)
+      dispatch({ type: CREATE_ISSUE_SUCCESS, issues: data })
+      console.log('issue created successfully ', data);
+
+    } catch (error) {
+      dispatch({ type: CREATE_ISSUE_FAILURE, error: error.message })
+    }
+  }
+}
+
 export function assignedUserToIssue({ issueId, userId }) {
   return async function (dispatch) {
     dispatch({ type: ASSIGNED_ISSUE_TO_USER_REQUEST })
     try {
-      const { data } = await api.post(`/api/issues/${issueId}/assignee/${userId}`)
+      const { data } = await api.put(`/api/issues/${issueId}/assignee/${userId}`)
       console.log('assigned issue ', data);
       dispatch({ type: ASSIGNED_ISSUE_TO_USER_SUCCESS, issues: data })
     } catch (error) {
