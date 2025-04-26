@@ -29,7 +29,7 @@ function chatReducer(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        messages: [...state.messages, action.messages]
+        messages: [...state.messages, action.message]
       }
 
     case FETCH_CHAT_BY_PROJECT_SUCCESS:
@@ -44,7 +44,7 @@ function chatReducer(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        error: error.messages
+        error: action.error
       }
     default:
       return state;

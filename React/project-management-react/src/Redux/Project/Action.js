@@ -71,8 +71,10 @@ export function deleteProject({ projectId }) {
 export function inviteToProject({ email, projectId }) {
   return async function (dispatch) {
     dispatch({ type: INVITE_TO_PROJECT_REQUEST })
+    console.log('chrck email ', email, projectId);
+
     try {
-      const { data } = api.post("/api/projects/invite", { email, projectId })
+      const { data } = await api.post("/api/projects/invite", { email, projectId })
       console.log("invite projects", data);
       dispatch({ type: INVITE_TO_PROJECT_SUCCESS, payload: data })
     } catch (error) {
@@ -81,12 +83,13 @@ export function inviteToProject({ email, projectId }) {
   }
 }
 
-export function acceptInvitation({ invitationToken, navigate }) {
+export function acceptInvitation({ token, navigate }) {
   return async function (dispatch) {
     dispatch({ type: ACCEPT_INVITATION_REQUEST })
     try {
-      const { data } = api.get("/api/projects/accept_invitation", { params: { token: invitationToken } })
-      navigate("/project" + data.projectId)
+
+      const { data } = await api.get("/api/projects/accept_invitation", { params: { token: token } })
+      navigate("/project/" + data.projectId)
       console.log("accept invitation projects", data);
       dispatch({ type: ACCEPT_INVITATION_SUCCESS, payload: data })
     } catch (error) {

@@ -5,8 +5,10 @@ export function sendMessage(messageData) {
   return async function (dispatch) {
     dispatch({ type: SEND_MESSAGES_REQUEST })
     try {
-      const { data } = await api.post("/api/messages/send", messageData)
+      const { data } = await api.post("/api/message/send", messageData)
       dispatch({ type: SEND_MESSAGES_SUCCESS, message: data })
+      console.log('message send ', data);
+
     } catch (error) {
       console.log(error);
       dispatch({ type: SEND_MESSAGES_FAILURE, error: error.message })
@@ -19,7 +21,7 @@ export function fetchChatByProject(projectId) {
     dispatch({ type: FETCH_CHAT_BY_PROJECT_REQUEST })
     try {
       const { data } = await api.get(`/api/projects/${projectId}/chat`)
-      console.log('fetch chat ', data);
+      // console.log('fetch chat ', data);
       dispatch({ type: FETCH_CHAT_BY_PROJECT_SUCCESS, chat: data })
 
     } catch (error) {
@@ -33,7 +35,7 @@ export function fetchChatMessages(chatId) {
   return async function (dispatch) {
     dispatch({ type: FETCH_CHAT_MESSAGES_REQUEST })
     try {
-      const { data } = await api.get(`/api/messages/chat/${chatId}`)
+      const { data } = await api.get(`/api/message/chat/${chatId}`)
       console.log('fetch messages ', data);
       dispatch({ type: FETCH_CHAT_MESSAGES_SUCCESS, chatId, messages: data })
 

@@ -5,7 +5,7 @@ import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { MagnifyingGlassIcon, MixerHorizontalIcon } from '@radix-ui/react-icons'
 import { ScrollArea } from '@radix-ui/react-scroll-area'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ProjectCard from '../Project/ProjectCard'
 import { useDispatch, useSelector } from 'react-redux'
 import { store } from '@/Redux/Store'
@@ -16,7 +16,7 @@ export const tags = [
 ]
  
 function ProjectList() {
-  const {project} = useSelector(store=>store)
+  const {auth,project} = useSelector(store=>store)
   const [keyword,setKeyword] = useState("")
   const dispatch = useDispatch()
 

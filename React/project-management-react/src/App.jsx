@@ -12,6 +12,7 @@ import Auth from './Pages/Auth/Auth'
 import { useDispatch, useSelector } from 'react-redux'
 import { getUser } from './Redux/Auth/Action'
 import { fetchProjects } from './Redux/Project/Action'
+import AccetInvitation from './Pages/Project/AccetInvitation'
 // import { Home } from 'lucide-react'
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
                   <Route path='/' element={<HomePage/>}></Route>
                   <Route path='/project/:id' element={<ProjectDetails/>}></Route>
                   <Route path='/project/:projectId/issue/:issueId' element={<IssueDetails/>}></Route>
+                  <Route path='/accept_invitation' element={<AccetInvitation/>}></Route>
                 </Routes>
               </div>:<Auth/>
       }
